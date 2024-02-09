@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width">
+  <title>HCL Avatar Assistant</title>
+
+  <link href="./css/styles.css" rel="stylesheet" />
+
+  <script src="./js/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+  <script src="./js/main.js"></script>
+
+  <link rel="icon" href="{{ url_for('static', filename='favicon-v1.png') }}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <script type="module" src="https://unpkg.com/@fluentui/web-components"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+</head>
+
+<body>
+  <div class="header">
+    <img src="images/hcl_light_logo.png" alt="Logo" width="120" height="30" />
+    <!--span class="header__title">HCL Assistant</span-->
+  </div>
+
+  <div class="title">
+    <h1>CKA Talking Assistant</h1>
+  </div>
+
+  <div class="main">
+    <div class="main-block">
+
+      <label for="skill">
+        <h3>Select Skill:</h3> 
+      </label>
+      <p> ** If None of the skills are selected, The Avatar will act as an OpenAI Chat assistant **</p>
+      <select id="skill" onchange="selectSkill();displayhelp(this.value)">
+        <option disabled selected value> -- None -- </option>
+        <option value="cka">QnA [Private KnowledgeBase]</option>
+        <option value="analyticsinsights">Analytics Insights</option>
+      </select>
+      <br>
+      <div id="parent_div">
+        <div id="icon_div"><i class="material-icons" style="font-size:24px;font-weight:400;color:white">info_outline</i></div>
+        <div id="helpermessage" style="font-size:16px;font-weight:400;color:white">The Skills in the drop-down bounds the context for the Avatar</div>
+    </div>
+      <br>
+      <h2>Here are some things I can help you with:</h2>
+
+      <div class="suggested-questions">
+
+        <button onclick="window.speak(`Can you explain what do you do ?`)">
+          Can you explain what do you do ?
+        </button>
+
+        <button onclick="window.speak(`Can you explain the data model ?`)">
+          Can you help me with technical support ?
+        </button>
+
+        <button onclick="window.speak(`How many orders were placed ?`)">
+          How many orders were placed ?
+        </button>
+
+      </div>
+    </div>
+
+    <div class="avatar-block">
+      <div id="remoteVideo">
+      </div>
+      <canvas id="canvas" width="720" height="1080" style="background-color: transparent;" hidden="hidden"></canvas>
+      <canvas id="tmpCanvas" width="720" height="1080" hidden="hidden"></canvas>
+      
+      <fluent-card class="record-card">
+        <div class="outerbutton">
+          <button id="startRecording" onclick="window.startRecording()" class="round-button">
+            <i id="buttonIcon" class="fas fa-microphone"></i>
+          </button>
+        </div>
+
+        <label id="spokenText" for="spokenText">
+          Press the mic to start talking
+        </label>
+      </fluent-card>
+    </div>
+
+    <div class="main-block">
+      <ul id="chathistory" class="chat-history"></ul>
+    </div>
+  </div>
+
+  <div id="loginOverlay">
+    <div id="gradientOverlay">
+        <button id="playVideo" onclick="window.startSession()">
+          <span id="playVideo__text" class="playVideo__text">Start Session</span>
+        </button>
+    </div>
+  </div>
+  <video id="background-video" autoplay loop muted poster="images/poster.png">
+    <source src="images/ai-bg-vid.mp4" type="video/mp4">
+  </video>
+
+  <script>
+    var data = {
+        'cka': "Upload a document in the private knowledgebase using CKA and ask questions..!!",
+        'analyticsinsights': "Extract Analytical insights related to Orders & Products from the Orders Catalog on Snowflake DWH!!"
+        };
+        function displayhelp(id) {
+            document.getElementById("helpermessage").innerHTML = data[id];
+    }
+  </script>
+  
+</body>
+
+</html>

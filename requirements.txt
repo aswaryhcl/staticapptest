@@ -1,0 +1,8 @@
+python-dotenv
+azure-ai-vision
+azure-identity
+azure-functions
+azure-communication-networktraversal
+azure-communication-identity
+
+
